@@ -33,6 +33,8 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
     ```bash
     npx hardhat init
     ```
+    Then choose the "Create a TypeScript project" option.
+    Be careful to remove Lock.sol and Lock.ts files from contracts and test folders and remove ignition folder.
 
 2. Install dependencies:
     ```bash
