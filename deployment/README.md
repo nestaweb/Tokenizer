@@ -47,21 +47,24 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
     import { HardhatUserConfig } from "hardhat/config";
     import "@nomicfoundation/hardhat-toolbox";
     import "dotenv/config";
+    import "@typechain/hardhat";
+    import "@nomicfoundation/hardhat-ethers";
+    import "@nomicfoundation/hardhat-chai-matchers";
 
     const config: HardhatUserConfig = {
       solidity: "0.8.20",
       networks: {
         sepolia: {
-          url: process.env.SEPOLIA_RPC_URL!,
+          url: "https://eth-sepolia.g.alchemy.com/v2/jQQuvRb_QQZlb75wH82me_VfiFndzTAQ",
           accounts: [process.env.PRIVATE_KEY!],
         },
       },
       etherscan: {
-        apiKey: process.env.ETHERSCAN_API_KEY!,
-      },
+        apiKey: {
+          sepolia: process.env.ETHERSCAN_API_KEY!
+        }
+      }
     };
-
-    export default config;
     ```
 
 4. Compile the contracts:
