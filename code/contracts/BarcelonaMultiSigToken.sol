@@ -17,8 +17,13 @@ contract BarcelonaMultiSigToken is ERC20, Ownable {
     mapping(address => bool) public signers;
     // A mapping to keep track of addresses that are authorized to sign transactions.
 
-    uint256 public constant REQUIRED_SIGNATURES = 2;
+    uint256 public requiredSignatures = 2;
     // A constant that specifies the number of signatures required to execute a transaction.
+
+    event TransactionCreated(uint256 indexed txIndex, address indexed to, uint256 amount);
+    event TransactionConfirmed(uint256 indexed txIndex, address indexed signer);
+    event TransactionExecuted(uint256 indexed txIndex, address indexed to, uint256 amount);
+
 
     // Pending transactions
     struct Transaction {
@@ -60,15 +65,13 @@ contract BarcelonaMultiSigToken is ERC20, Ownable {
     // Create a new pending transaction
     function createTransaction(address _to, uint256 _amount) public {
         require(signers[msg.sender], "Not an authorized signer");
-        // Ensures that only authorized signers can create transactions.
 
         Transaction storage newTransaction = pendingTransactions.push();
-        // Adds a new transaction to the array of pending transactions.
-
         newTransaction.to = _to;
         newTransaction.amount = _amount;
         newTransaction.executed = false;
-        // Initializes the new transaction with recipient address, amount, and sets executed status to false.
+
+        emit TransactionCreated(pendingTransactions.length - 1, _to, _amount);
     }
 
     // Confirm a pending transaction
@@ -86,11 +89,34 @@ contract BarcelonaMultiSigToken is ERC20, Ownable {
         transaction.confirmationCount += 1;
         // Marks this transaction as confirmed by this signer and increments the confirmation count.
 
+        emit TransactionConfirmed(_txIndex, msg.sender);
         // Execute if enough signatures
-        if (transaction.confirmationCount >= REQUIRED_SIGNATURES && !transaction.executed) {
+        if (transaction.confirmationCount >= requiredSignatures && !transaction.executed) {
             _transfer(owner(), transaction.to, transaction.amount);
             transaction.executed = true;
             // Transfers tokens if enough confirmations are received and marks it as executed.
+            emit TransactionExecuted(_txIndex, transaction.to, transaction.amount);
         }
+    }
+
+    function getPendingTransactionCount() public view returns (uint256) {
+        return pendingTransactions.length;
+    }
+
+    function executeTransaction(uint256 _txIndex) public {
+        require(signers[msg.sender], "Not an authorized signer");
+        Transaction storage transaction = pendingTransactions[_txIndex];
+        require(!transaction.executed, "Transaction already executed");
+        require(transaction.confirmationCount >= requiredSignatures, "Not enough confirmations");
+
+        _transfer(owner(), transaction.to, transaction.amount);
+        transaction.executed = true;
+
+        emit TransactionExecuted(_txIndex, transaction.to, transaction.amount);
+    }
+
+    function setRequiredSignatures(uint256 _signatures) public onlyOwner {
+        require(_signatures > 0, "Signatures must be greater than zero");
+        requiredSignatures = _signatures;
     }
 }

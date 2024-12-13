@@ -39,6 +39,7 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
 2. Install dependencies:
     ```bash
     pnpm install @openzeppelin/contracts dotenv @nomicfoundation/hardhat-toolbox
+    pnpm install -D @typechain/hardhat @typechain/ethers-v6 typechain
     ```
 
 3. Set up your Hardhat configuration (`hardhat.config.ts`):
@@ -68,7 +69,28 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
     npx hardhat compile
     ```
 
-5. Deploy the contract to Sepolia:
+5. Test the contracts:
+    ```bash
+    npx hardhat test
+    ```
+   Example output:
+   ```
+    BarcelonaMultiSigToken
+      ✔ should have the correct initial supply
+      ✔ should allow the owner to add and remove signers
+      ✔ should allow a signer to create a transaction
+      ✔ should allow signers to confirm a transaction
+      ✔ should execute a transaction once enough confirmations are received
+      ✔ should not execute a transaction with insufficient confirmations
+      ✔ should emit events for transaction creation, confirmation, and execution
+      ✔ should allow the owner to update the required number of signatures
+      ✔ should fail to execute a transaction if required signatures are not met
+
+
+    9 passing (440ms)
+   ```
+
+6. Deploy the contract to Sepolia:
     ```bash
     npx hardhat run scripts/deploy.ts --network sepolia
     ```
@@ -78,7 +100,7 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
    BarcelonaSuperTokenByNestaweb42 deployed to: 0xaA04Ff5deB3A37df577d85A20E60CbBd292718a3
    ```
 
-6. Verify the contract on Etherscan:
+7. Verify the contract on Etherscan:
     ```bash
     npx hardhat verify --network sepolia 0xaA04Ff5deB3A37df577d85A20E60CbBd292718a3
     ```

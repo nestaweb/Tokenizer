@@ -4,14 +4,13 @@ async function main() {
   const [deployer] = await ethers.getSigners();
 
   console.log("Deploying contracts with the account:", deployer.address);
+  console.log("Account balance:", (await deployer.provider.getBalance(deployer.address)).toString());
 
-  const MyToken = await ethers.getContractFactory("BarcelonaSuperTokenByNestaweb42");
-  const token = await MyToken.deploy();
-
-  await token.waitForDeployment();
-  const contractAddress = await token.getAddress();
-
-  console.log("BarcelonaSuperTokenByNestaweb42 deployed to:", contractAddress);
+  // Deploy the multisig token contract
+  const MultiSigToken = await ethers.getContractFactory("BarcelonaMultiSigToken");
+  const multisigToken = await MultiSigToken.deploy(deployer.address);
+  await multisigToken.waitForDeployment();
+  console.log("Multisig Token deployed to:", await multisigToken.getAddress());
 }
 
 main()
@@ -19,4 +18,4 @@ main()
   .catch((error) => {
     console.error(error);
     process.exit(1);
-});
+  });
