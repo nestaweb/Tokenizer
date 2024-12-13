@@ -21,3 +21,4 @@
 - **Deployer Address**: 0x1212e7cF4625CE6f9E94B0dE92e5f98eF7379509
 - **Deployment Network**: Sepolia
 - **Total Supply**: 42,000 tokens
+- **Deployment Demo**: https://youtu.be/eF5tbtXFFGE
