@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Specifies the license under which the contract is released. The MIT License is permissive, allowing reuse with minimal restrictions.
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 // Specifies the Solidity compiler version to use. This contract is compatible with version 0.8.0 and above, but not including 0.9.0.
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";

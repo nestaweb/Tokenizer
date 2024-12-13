@@ -52,7 +52,7 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
     import "@nomicfoundation/hardhat-chai-matchers";
 
     const config: HardhatUserConfig = {
-      solidity: "0.8.0",
+      solidity: "0.8.20",
       networks: {
         sepolia: {
           url: "https://eth-sepolia.g.alchemy.com/v2/jQQuvRb_QQZlb75wH82me_VfiFndzTAQ",
