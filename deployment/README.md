@@ -11,7 +11,7 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
 1. Install Node.js and `pnpm`.
 2. Install Hardhat globally:
     ```bash
-    npm install --global hardhat
+    pnpm install --global hardhat
     ```
 
 3. Set up an Ethereum wallet (e.g., MetaMask) and fund it with Sepolia testnet ETH from a faucet.

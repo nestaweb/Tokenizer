@@ -89,12 +89,3 @@ This project was developed as part of the 42 School's "Tokenizer" exercise, show
 4. Deploy the contract (see deployment README).
 
 5. Interact with the deployed contract using Hardhat scripts or directly via Etherscan.
-
----
-
-## **Future Improvements**
-- Add support for dynamic quorum requirements in the multisignature system.
-- Implement a web interface for easier interaction with the token and multisig features.
-- Explore gas optimization techniques for transaction processing.
-
----
