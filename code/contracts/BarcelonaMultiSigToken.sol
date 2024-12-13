@@ -99,24 +99,33 @@ contract BarcelonaMultiSigToken is ERC20, Ownable {
         }
     }
 
+    // Returns the total count of pending transactions.
+    // This is a read-only function that provides an overview of unexecuted transactions.
     function getPendingTransactionCount() public view returns (uint256) {
         return pendingTransactions.length;
     }
 
+    // Executes a pending transaction once the required conditions are met.
+    // - Only authorized signers can execute.
+    // - Ensures the transaction has not already been executed.
+    // - Requires the transaction to have sufficient confirmations.
+    // Transfers the specified amount to the recipient and emits an event.
     function executeTransaction(uint256 _txIndex) public {
-        require(signers[msg.sender], "Not an authorized signer");
-        Transaction storage transaction = pendingTransactions[_txIndex];
-        require(!transaction.executed, "Transaction already executed");
-        require(transaction.confirmationCount >= requiredSignatures, "Not enough confirmations");
+        require(signers[msg.sender], "Not an authorized signer"); // Only signers can execute transactions
+        Transaction storage transaction = pendingTransactions[_txIndex]; // Fetch the transaction from the pending list
+        require(!transaction.executed, "Transaction already executed"); // Prevent re-execution of the same transaction
+        require(transaction.confirmationCount >= requiredSignatures, "Not enough confirmations"); // Ensure sufficient confirmations
 
-        _transfer(owner(), transaction.to, transaction.amount);
-        transaction.executed = true;
+        _transfer(owner(), transaction.to, transaction.amount); // Transfer the specified amount to the recipient
+        transaction.executed = true; // Mark the transaction as executed
 
-        emit TransactionExecuted(_txIndex, transaction.to, transaction.amount);
+        emit TransactionExecuted(_txIndex, transaction.to, transaction.amount); // Emit an event for transaction execution
     }
 
+    // Allows the contract owner to update the required number of signatures for transaction execution.
+    // - Ensures that at least one signature is always required.
     function setRequiredSignatures(uint256 _signatures) public onlyOwner {
-        require(_signatures > 0, "Signatures must be greater than zero");
-        requiredSignatures = _signatures;
+        require(_signatures > 0, "Signatures must be greater than zero"); // Ensure at least one signature is required
+        requiredSignatures = _signatures; // Update the required number of signatures
     }
 }
