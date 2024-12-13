@@ -8,7 +8,7 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
 ---
 
 ## **Prerequisites**
-1. Install Node.js and `pnpm`.
+1. Clone repository and go in ```code``` folder.
 2. Install Hardhat globally:
     ```bash
     pnpm install --global hardhat
