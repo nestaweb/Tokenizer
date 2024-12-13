@@ -65,6 +65,8 @@ This guide outlines the steps required to deploy and verify the `42BarcelonaSupe
         }
       }
     };
+
+    export default config;
     ```
 
 4. Compile the contracts:
